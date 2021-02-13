@@ -15,7 +15,7 @@ router.use('/auth', authController);
 router.use('/products', productController);
 router.use('/accessories', accessoryController);
 router.get('*', (req, res)=>{
-    res.render('404')
+    res.render('404-TEST')
 })
 
 module.exports = router;
