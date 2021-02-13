@@ -8,8 +8,8 @@ const isGuest = require('../middlewares/isGuest');
 const { validateProduct } = require('../controllers/helpers/productHelper');
 const accessoryService = require('../services/accessoryService');
 
-router.get('/', (req, res) => {
-  
+router.get('/add-hotel', (req, res) => {
+    res.render('create', {title: 'Add a hotel'})
 })
 router.get('/create', (req, res) => {
     
