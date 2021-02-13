@@ -2,12 +2,7 @@
 
 const config = {
     development: {
-        PORT: 4401,
-        SALT_ROUNDS: 10,
-        SECRET: 'examSecrets'
-    },
-    production: {
-        PORT: 80,
+        PORT: 3333,
         SALT_ROUNDS: 10,
         SECRET: 'examSecrets'
     }
