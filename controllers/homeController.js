@@ -4,11 +4,9 @@ const { Router } = require('express');
 const router = Router();
 
 router.get('/', (req, res) => {
-    res.send(`<h1>Inside Booking Uni already?!!</h1>`)
+    res.render('home')
 })
-router.get('/about', (req, res) => {
-    res.render('about', {title: 'About us'});
-})
+
 
 module.exports = router
 

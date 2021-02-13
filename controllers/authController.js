@@ -7,10 +7,10 @@ const isGuest = require('../middlewares/isGuest');
 //ВНИМАВАЙ С PATHNAME - ПРОМЕНИ ГИ В ПАПКА VIEWS СЛЕД КАТО ГИ ПОЛУЧИШ!!!
 //ВТОРИЯТ ПАРАМЕТЪР НА .GET Е MIDDLEWARE - ВНИМАВАЙ ДАЛИ ГО ИЗПОЛЗВАШ!
 
-router.get('/login', isGuest, (req, res) => {
+router.get('/login', (req, res) => {
     res.render('login');
 })
-router.post('/login',isGuest, async (req, res)=>{
+router.post('/login',async (req, res)=>{
     const {username, password} = req.body;
 
     try {
@@ -23,11 +23,11 @@ router.post('/login',isGuest, async (req, res)=>{
     }
 })
 
-router.get('/register',isGuest, (req, res) => {
+router.get('/register',(req, res) => {
     res.render('register')
 })
 
-router.post('/register',isGuest, async (req, res) => {
+router.post('/register',async (req, res) => {
     const {username, password, repeatPassword } = req.body;
 
     if(password !== repeatPassword){
@@ -42,8 +42,11 @@ router.post('/register',isGuest, async (req, res) => {
         return;
     }
 })
-router.get('/logout', isAuthenticated, (req, res)=>{
+router.get('/logout', (req, res)=>{
     res.clearCookie(cookieName);
     res.redirect('/products')
+})
+router.get('/profile', (req, res) => {
+    res.render('profile', {title: 'User profile'});
 })
 module.exports = router;
