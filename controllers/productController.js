@@ -14,9 +14,12 @@ router.get('/add-hotel', (req, res) => {
 router.get('/create', (req, res) => {
     
 })
-router.post('/create', validateProduct, (req, res) => {
+router.post('/create', (req, res) => {
 
 
+})
+router.get('/:productId/details', (req, res)=>{
+    // res.render('details', {id: req.params.productId}); - трябва да извиква хотел от базата и да го слага в Options
 })
 
 // CONTROLLER ИЗПОЛЗВА ФУНКЦИИТЕ, СЪЗДАДЕНИ В PRODUCTSERVICE ЗА СЪЗДАВАНЕ ИЛИ ИЗВИКВАНЕ НА ВСИЧКИ ПРОДУКТИ

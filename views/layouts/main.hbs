@@ -11,23 +11,29 @@
 
     <div id="container">
         <div>
+            {{#if loading}}
             <div class="notification loadingBox">
                 Loading …
             </div>
+            {{/if}}
+            {{#if info}}
             <div class="notification infoBox">
                 <span>Info</span>
             </div>
+            {{/if}}
+            {{#if error}}
             <div class="notification errorBox">
-                <span>Error</span>
+                <span>{{error.message}}</span>
             </div>
+            {{/if}}
         </div>
 
         <nav>
             <div class="left-container">
                 <ul>
-                    <li><a href="">Home</a></li>
-                    <li><a href="">Login</a></li>
-                    <li><a href="">Register</a></li>
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/auth/login">Login</a></li>
+                    <li><a href="/auth/register">Register</a></li>
                 </ul>
             </div>
         </nav>

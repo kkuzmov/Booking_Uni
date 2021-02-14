@@ -17,21 +17,20 @@ router.post('/login',async (req, res)=>{
         let token = await authService.login({username, password})
 
         res.cookie(cookieName, token);
-        res.redirect('/products')
+        res.redirect('/')
     } catch (error) {
         res.render('login', {error})
     }
 })
 
 router.get('/register',(req, res) => {
-    res.render('register')
+    res.render('register', {title: 'Register user'});
 })
 
-router.post('/register',async (req, res) => {
-    const {username, password, repeatPassword } = req.body;
-
-    if(password !== repeatPassword){
-        res.render('register', {message: 'Passwords do not match!'});
+router.post('/register', async (req, res) => {
+    const {email, username, password, rePassword } = req.body;
+    if(password !== rePassword){
+        res.render('register', {error: {message:'Passwords do not match!'}});
         return;
     }
     try {
