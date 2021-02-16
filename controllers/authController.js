@@ -7,10 +7,10 @@ const isGuest = require('../middlewares/isGuest');
 //ВНИМАВАЙ С PATHNAME - ПРОМЕНИ ГИ В ПАПКА VIEWS СЛЕД КАТО ГИ ПОЛУЧИШ!!!
 //ВТОРИЯТ ПАРАМЕТЪР НА .GET Е MIDDLEWARE - ВНИМАВАЙ ДАЛИ ГО ИЗПОЛЗВАШ!
 
-router.get('/login', (req, res) => {
+router.get('/login', isGuest, (req, res) => {
     res.render('login');
 })
-router.post('/login',async (req, res)=>{
+router.post('/login',isGuest,async (req, res)=>{
     const {username, password} = req.body;
 
     try {
@@ -23,11 +23,11 @@ router.post('/login',async (req, res)=>{
     }
 })
 
-router.get('/register',(req, res) => {
+router.get('/register',isGuest,(req, res) => {
     res.render('register', {title: 'Register user'});
 })
 
-router.post('/register', async (req, res) => {
+router.post('/register',isGuest, async (req, res) => {
     const {email, username, password, rePassword } = req.body;
     if(password !== rePassword){
         res.render('register', {error: {message:'Passwords do not match!'}});
@@ -49,11 +49,11 @@ router.post('/register', async (req, res) => {
         return;
     }
 })
-router.get('/logout', (req, res)=>{
+router.get('/logout', isAuthenticated, (req, res)=>{
     res.clearCookie(cookieName);
     res.redirect('/')
 })
-router.get('/profile', (req, res) => {
+router.get('/profile',isAuthenticated, (req, res) => {
     res.render('profile', {title: 'User profile'});
 })
 module.exports = router;

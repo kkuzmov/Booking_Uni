@@ -34,7 +34,7 @@ router.get('/:productId/book',isAuthenticated, (req, res)=>{
                hotel.freeRooms--;
                productService.updateOne(req.params.productId, hotel)
                 .then(response =>{
-                    res.redirect('/')
+                    res.redirect(`/products/${req.params.productId}/details`)
                 })
             })
             .catch(err=>console.log(err))
@@ -55,6 +55,10 @@ router.post('/:productId/edit',isAuthenticated, (req, res)=>{
                 })
             })
             .catch(err=>console.log(err))
+})
+router.get('/:productId/delete',isAuthenticated, (req, res)=>{
+    productService.deleteOne(req.params.productId)
+        .then(deleted => res.redirect('/'))
 })
 
 
