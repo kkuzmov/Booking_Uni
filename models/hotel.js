@@ -17,7 +17,7 @@ const hotelSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    'free-rooms': {
+    freeRooms: {
         type: Number,
         required: true,
         min: 1,

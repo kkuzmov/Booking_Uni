@@ -18,8 +18,27 @@ router.post('/add-hotel', (req, res) => {
         })    
         .catch(err =>{console.log(err)})
 })
-router.get('/:productId/details', (req, res)=>{
-    // res.render('details', {id: req.params.productId}); - трябва да извиква хотел от базата и да го слага в Options
+router.get('/:productId/details', isAuthenticated, (req, res)=>{
+
+    productService.getOne(req.params.productId)
+        .then(hotel =>{
+            let isCreator = req.user._id === hotel.owner;
+
+            res.render('details', {...hotel, isCreator});
+        })
+})
+router.get('/:productId/book', (req, res)=>{
+        productService.getOne(req.params.productId)
+            .then(hotel =>{
+               hotel.usersBookedARoom.push(req.user._id);
+               hotel.freeRooms--;
+               productService.updateOne(req.params.productId, hotel)
+                .then(response =>{
+                    console.log(response)
+                    res.redirect('/')
+                })
+            })
+            .catch(err=>console.log(err))
 })
 
 // CONTROLLER ИЗПОЛЗВА ФУНКЦИИТЕ, СЪЗДАДЕНИ В PRODUCTSERVICE ЗА СЪЗДАВАНЕ ИЛИ ИЗВИКВАНЕ НА ВСИЧКИ ПРОДУКТИ
