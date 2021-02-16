@@ -6,17 +6,17 @@ const productService = require('../services/productService');
 const isAuthenticated = require('../middlewares/isAuthenticated');
 const isGuest = require('../middlewares/isGuest');
 const { validateProduct } = require('../controllers/helpers/productHelper');
-const accessoryService = require('../services/accessoryService');
 
-router.get('/add-hotel', (req, res) => {
+router.get('/add-hotel', isAuthenticated, (req, res) => {
     res.render('create', {title: 'Add a hotel'})
 })
-router.get('/create', (req, res) => {
-    
-})
-router.post('/create', (req, res) => {
-
-
+router.post('/add-hotel', (req, res) => {
+    let dataToSend = {...req.body, owner: req.user._id};
+    productService.createHotel(dataToSend)
+        .then(response =>{
+            console.log(response)
+        })    
+        .catch(err =>{console.log(err)})
 })
 router.get('/:productId/details', (req, res)=>{
     // res.render('details', {id: req.params.productId}); - трябва да извиква хотел от базата и да го слага в Options

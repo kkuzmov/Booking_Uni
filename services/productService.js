@@ -1,9 +1,9 @@
 // CHECK NAMES/PARAMETERS
 
-const Accessory = require('../models/accessory');
+const Hotel = require('../models/hotel');
 
 async function getAll(query){
-    // let products = await Cube.find({}).lean(); ОТПАДА - НЯМА ДА СЕ КАЗВА ТАКА МОДЕЛЪТ
+    let products = await Hotel.find({}).lean()
 
 
     if(query.search){
@@ -18,38 +18,32 @@ async function getAll(query){
     return products;
 }
 async function getOne(id){
-    return Cube.findById(id).lean();
+    return Hotel.findById(id).lean();
 }
  
-function createCube(data){
-    //    let cube = new Cube({...data, creator: userId}); НЯМА ДА Е CUBE!
-        return cube.save()
+function createHotel(data){
+    let hotel = new Hotel({...data});
+    return hotel.save()
 }
-async function attachAccessory(productId, accessoryId){
-    // НЯМА ДА Е CUBE!
-    let product = await Cube.findById(productId)
-    let accessory = await Accessory.findById(accessoryId)
-    product.accessories.push(accessory);
-    return product.save()
-}
-function getOneWithAccessories(id){
-    // НЯМА ДА Е CUBE!
-    return Cube.findById(id).populate('accessories').lean();
-}
+// async function attachAccessory(productId, accessoryId){
+//     let product = await Cube.findById(productId)
+//     let accessory = await Accessory.findById(accessoryId)
+//     product.accessories.push(accessory);
+//     return product.save()
+// }
+// function getOneWithAccessories(id){
+//     return Cube.findById(id).populate('accessories').lean();
+// }
 function updateOne(productId, productData){
-    // НЯМА ДА Е CUBE!
-    return Cube.updateOne({_id: productId}, productData)
+    return Hotel.updateOne({_id: productId}, productData)
  }
  function deleteOne(productId){
-    //  НЯМА ДА Е CUBE!
-     return Cube.deleteOne({_id: productId})
+     return Hotel.deleteOne({_id: productId})
  }
 module.exports = {
     getAll,
     getOne,
-    createCube,
-    attachAccessory,
-    getOneWithAccessories,
     updateOne,
-    deleteOne
+    deleteOne,
+    createHotel
 }
