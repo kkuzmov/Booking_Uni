@@ -34,6 +34,9 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="/auth/login">Login</a></li>
                     <li><a href="/auth/register">Register</a></li>
+                    {{#if isAuthenticated}}
+                    <li><a href="/auth/login">Welcome, {{user.username}}</a></li>
+                    {{/if}}
                 </ul>
             </div>
         </nav>
