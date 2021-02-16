@@ -22,7 +22,7 @@ input[type=submit]:hover, ul>li:hover {
     transform: scale(1.1);
 }
 
-.log-out:hover {
+.log-out a:hover {
     color: red;
     transform: scale(1.1);
 }
