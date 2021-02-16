@@ -40,10 +40,14 @@ function updateOne(productId, productData){
  function deleteOne(productId){
      return Hotel.deleteOne({_id: productId})
  }
+function findOneAndUpdate(productId, productData){
+    return Hotel.findOneAndUpdate({_id: productId}, productData);
+}
 module.exports = {
     getAll,
     getOne,
     updateOne,
     deleteOne,
-    createHotel
+    createHotel,
+    findOneAndUpdate
 }

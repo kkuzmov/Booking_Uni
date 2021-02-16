@@ -7,7 +7,7 @@ router.get('/', (req, res) => {
     productService.getAll()
         .then(hotels =>{
             hotels = hotels.sort((a,b) => b['free-rooms'] - a['free-rooms']);
-            res.render('home', { hotels })
+            res.render('home', {title: 'Hotels', hotels })
         })
 })
 

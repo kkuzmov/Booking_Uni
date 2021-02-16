@@ -12,12 +12,17 @@
                 {{city}}
             </div>
             <p><span >Free rooms: {{freeRooms}}</span> </p>
-            <p><span class="green">You already have booked a room</span> </p>
-            <a href="/products/{{_id}}/book" class="book">Book</a>
             {{#if isCreator}}
-            <a href="" class="edit">Edit</a>
-            <a href="" class="remove">Delete</a>
+            <a href="/products/{{_id}}/edit" class="edit">Edit</a>
+            <a href="/products/{{_id}}/delete" class="remove">Delete</a>
+            {{else}}
+            {{#if alreadyBooked}}
+            <p><span class="green">You already have booked a room</span> </p>
+            {{else}}
+            <a href="/products/{{_id}}/book" class="book">Book</a>
             {{/if}}
+            {{/if}}
+            
         </div>
     </div>
 </section>

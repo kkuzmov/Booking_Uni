@@ -6,11 +6,11 @@ const productService = require('../services/productService');
 const isAuthenticated = require('../middlewares/isAuthenticated');
 const isGuest = require('../middlewares/isGuest');
 const { validateProduct } = require('../controllers/helpers/productHelper');
-
+const Hotel = require('../models/hotel');
 router.get('/add-hotel', isAuthenticated, (req, res) => {
     res.render('create', {title: 'Add a hotel'})
 })
-router.post('/add-hotel', (req, res) => {
+router.post('/add-hotel',isAuthenticated, (req, res) => {
     let dataToSend = {...req.body, owner: req.user._id};
     productService.createHotel(dataToSend)
         .then(response =>{
@@ -23,26 +23,39 @@ router.get('/:productId/details', isAuthenticated, (req, res)=>{
     productService.getOne(req.params.productId)
         .then(hotel =>{
             let isCreator = req.user._id === hotel.owner;
-
-            res.render('details', {...hotel, isCreator});
+            let alreadyBooked = hotel.usersBookedARoom.includes(req.user._id);
+            res.render('details', {title: 'Hotel details', ...hotel, isCreator, alreadyBooked});
         })
 })
-router.get('/:productId/book', (req, res)=>{
+router.get('/:productId/book',isAuthenticated, (req, res)=>{
         productService.getOne(req.params.productId)
             .then(hotel =>{
                hotel.usersBookedARoom.push(req.user._id);
                hotel.freeRooms--;
                productService.updateOne(req.params.productId, hotel)
                 .then(response =>{
-                    console.log(response)
                     res.redirect('/')
                 })
             })
             .catch(err=>console.log(err))
 })
-
-// CONTROLLER ИЗПОЛЗВА ФУНКЦИИТЕ, СЪЗДАДЕНИ В PRODUCTSERVICE ЗА СЪЗДАВАНЕ ИЛИ ИЗВИКВАНЕ НА ВСИЧКИ ПРОДУКТИ
-// ЧАСТ ОТ EXAM PACKAGE
+router.get('/:productId/edit', isAuthenticated,(req, res)=>{
+    productService.getOne(req.params.productId)
+        .then(hotel =>{
+            res.render('edit', {title: 'Edit hotel', ...hotel})
+        })
+})
+router.post('/:productId/edit',isAuthenticated, (req, res)=>{
+    productService.getOne(req.params.productId)
+            .then(hotel =>{
+               hotel = req.body;
+               productService.updateOne(req.params.productId, hotel)
+                .then(response =>{
+                    res.redirect(`/products/${req.params.productId}/details`);
+                })
+            })
+            .catch(err=>console.log(err))
+})
 
 
 module.exports = router;
