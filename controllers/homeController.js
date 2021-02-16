@@ -1,10 +1,14 @@
 //CHECKED!!!
 const { Router } = require('express');
-
+const productService = require('../services/productService');
 const router = Router();
 
 router.get('/', (req, res) => {
-    res.render('home')
+    productService.getAll()
+        .then(hotels =>{
+            hotels = hotels.sort((a,b) => b['free-rooms'] - a['free-rooms']);
+            res.render('home', { hotels })
+        })
 })
 
 

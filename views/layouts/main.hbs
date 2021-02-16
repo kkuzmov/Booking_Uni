@@ -18,7 +18,7 @@
             {{/if}}
             {{#if info}}
             <div class="notification infoBox">
-                <span>Info</span>
+                <span>{{info}}</span>
             </div>
             {{/if}}
             {{#if error}}
@@ -34,6 +34,8 @@
                     <li><a href="/">Home</a></li>
                     {{#if isAuthenticated}}
                     <li><a href="/products/add-hotel">Add +</a></li>
+            </div>
+            <div class="right-container">
                     <li><a href="/auth/profile">{{user.username}}</a></li>
 
                     <li class="log-out"><a href="/auth/logout">Logout</a></li>
@@ -43,6 +45,7 @@
                     {{/if}}
                 </ul>
             </div>
+            
         </nav>
         {{{body}}}
 <footer>@SoftUni - JS Back-end - BookingUni 2020</footer>

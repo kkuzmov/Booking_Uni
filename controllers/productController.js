@@ -14,7 +14,7 @@ router.post('/add-hotel', (req, res) => {
     let dataToSend = {...req.body, owner: req.user._id};
     productService.createHotel(dataToSend)
         .then(response =>{
-            console.log(response)
+            res.redirect('/');
         })    
         .catch(err =>{console.log(err)})
 })
