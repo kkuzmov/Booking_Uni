@@ -6,16 +6,19 @@ const hotelSchema = new mongoose.Schema({
     hotel: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        minlength: 4
     },
     city: {
         type: String,
         required: true,
-        maxlength: 50
+        maxlength: 50,
+        minlength: 3
     },
     imgUrl: {
         type: String,
-        required: true
+        required: true,
+        validate: /^https?/
     },
     freeRooms: {
         type: Number,

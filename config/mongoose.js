@@ -3,7 +3,7 @@
 const mongoose = require('mongoose');
 
 module.exports = (app) => {
-mongoose.connect('mongodb://localhost/booking_uni', {useNewUrlParser: true, useUnifiedTopology: true});
+mongoose.connect('mongodb://localhost/booking_uni', {useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true, useFindAndModify: true});
 
 const db = mongoose.connection;
 

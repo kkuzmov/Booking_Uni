@@ -4,8 +4,19 @@ const router = Router();
 const cookieName = 'USER_SESSION';
 const isAuthenticated = require('../middlewares/isAuthenticated');
 const isGuest = require('../middlewares/isGuest');
-//ВНИМАВАЙ С PATHNAME - ПРОМЕНИ ГИ В ПАПКА VIEWS СЛЕД КАТО ГИ ПОЛУЧИШ!!!
-//ВТОРИЯТ ПАРАМЕТЪР НА .GET Е MIDDLEWARE - ВНИМАВАЙ ДАЛИ ГО ИЗПОЛЗВАШ!
+const validator = require('validator');
+const User = require('../models/user');
+
+let isStrongPasswordMiddleware = function(req, res, next){
+    let password = req.body.password;
+    let isStrongPassword = validator.isStrongPassword(password, [{
+        minLength: 5,
+    }])
+    if (!isStrongPassword) {
+        return res.render('register', { error: {message: 'You must choose a stronger password!'}, username: req.body.username})
+    }
+    next();
+}
 
 router.get('/login', isGuest, (req, res) => {
     res.render('login');
@@ -34,7 +45,7 @@ router.post('/register',isGuest, async (req, res) => {
         return;
     }
     try {
-        let user = await authService.register({username, password});
+        let user = await authService.register({username, password, email});
         try {
             let token = await authService.login({username, password})
     
@@ -43,9 +54,10 @@ router.post('/register',isGuest, async (req, res) => {
         } catch (error) {
             res.render('login', {error})
         } 
-        // res.redirect('/auth/login')
-    } catch (error) {
-        res.render('register', {error})
+    } catch (err) {
+        let error = Object.keys(err.errors).map(x => ({message: err.errors[x].message}))[0];
+
+        res.render('register',  {error});
         return;
     }
 })
@@ -54,6 +66,6 @@ router.get('/logout', isAuthenticated, (req, res)=>{
     res.redirect('/')
 })
 router.get('/profile',isAuthenticated, (req, res) => {
-    res.render('profile', {title: 'User profile'});
+    res.render('profile', {title: 'User profile', ...req.user});
 })
 module.exports = router;
