@@ -7,6 +7,7 @@ const isAuthenticated = require('../middlewares/isAuthenticated');
 const isGuest = require('../middlewares/isGuest');
 const { validateProduct } = require('../controllers/helpers/productHelper');
 const Hotel = require('../models/hotel');
+const User = require('../models/user');
 router.get('/add-hotel', isAuthenticated, (req, res) => {
     res.render('create', {title: 'Add a hotel'})
 })

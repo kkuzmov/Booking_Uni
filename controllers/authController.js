@@ -5,7 +5,7 @@ const cookieName = 'USER_SESSION';
 const isAuthenticated = require('../middlewares/isAuthenticated');
 const isGuest = require('../middlewares/isGuest');
 const validator = require('validator');
-
+const productService = require('../services/productService');
 let isStrongPasswordMiddleware = function(req, res, next){
     let password = req.body.password;
     let isStrongPassword = validator.isStrongPassword(password, [{
@@ -63,6 +63,13 @@ router.get('/logout', isAuthenticated, (req, res)=>{
     res.redirect('/')
 })
 router.get('/profile',isAuthenticated, (req, res) => {
-    res.render('profile', {title: 'User profile', ...req.user});
+    let userId = req.user._id;
+    console.log(userId);
+    productService.getAll()
+        .then(hotels =>{
+            hotels = hotels.filter(hotel => hotel.usersBookedARoom.includes(userId));
+            console.log(hotels)
+            res.render('profile', {title: 'User profile', ...req.user, hotels});
+        })
 })
 module.exports = router;
