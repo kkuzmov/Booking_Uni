@@ -15,13 +15,16 @@ async function register({username, password, email}) {
 }
 async function login({username,password}){
     let user = await User.findOne({username})
-    if(!user) throw {message: 'User not found!'};
-
-    let isMatch = await bcrypt.compare(password, user.password);
-    if(!isMatch) throw {message: 'Password incorrect!'};
-    let token = jwt.sign({_id: user._id, username: user.username, email: user.email}, SECRET)
-
-    return token
+    console.log(user);
+    if(!user){
+        throw {message: 'User not found!'}
+    } else{
+        let isMatch = await bcrypt.compare(password, user.password);
+        if(!isMatch) throw {message: 'Password incorrect!'};
+        let token = jwt.sign({_id: user._id, username: user.username, email: user.email}, SECRET)
+    
+        return token
+    }
 }
 
 module.exports = {

@@ -26,35 +26,32 @@ router.post('/login',isGuest,async (req, res)=>{
     try {
         let token = await authService.login({username, password})
 
-        res.cookie(cookieName, token);
+        res.cookie(cookieName, token, {httpOnly: true});
         res.redirect('/')
     } catch (error) {
-        res.render('login', {error})
+        res.status(404).render('login', {error});
     }
 })
-
 router.get('/register',isGuest,(req, res) => {
     res.render('register', {title: 'Register user'});
 })
-
 router.post('/register',isGuest, async (req, res) => {
     const {email, username, password, rePassword } = req.body;
     if(password !== rePassword){
-        res.render('register', {error: {message:'Passwords do not match!'}});
+        res.status(406).render('register', {error: {message:'Passwords do not match!'}});
         return;
     }
     try {
         let user = await authService.register({username, password, email});
         try {
             let token = await authService.login({username, password})
-    
             res.cookie(cookieName, token);
             res.redirect('/')
         } catch (error) {
-            res.render('login', {error})
+            res.status(404).render('login', {error})
         } 
     } catch (error) {
-        res.render('register', {error})
+        res.status(404).render('register', {error})
         return;
     }
 })
@@ -62,13 +59,11 @@ router.get('/logout', isAuthenticated, (req, res)=>{
     res.clearCookie(cookieName);
     res.redirect('/')
 })
-router.get('/profile',isAuthenticated, (req, res) => {
+router.get('/profile', isAuthenticated, (req, res) => {
     let userId = req.user._id;
-    console.log(userId);
     productService.getAll()
         .then(hotels =>{
             hotels = hotels.filter(hotel => hotel.usersBookedARoom.includes(userId));
-            console.log(hotels)
             res.render('profile', {title: 'User profile', ...req.user, hotels});
         })
 })
