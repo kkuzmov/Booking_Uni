@@ -5,7 +5,6 @@ const cookieName = 'USER_SESSION';
 const isAuthenticated = require('../middlewares/isAuthenticated');
 const isGuest = require('../middlewares/isGuest');
 const validator = require('validator');
-const User = require('../models/user');
 
 let isStrongPasswordMiddleware = function(req, res, next){
     let password = req.body.password;
@@ -54,10 +53,8 @@ router.post('/register',isGuest, async (req, res) => {
         } catch (error) {
             res.render('login', {error})
         } 
-    } catch (err) {
-        let error = Object.keys(err.errors).map(x => ({message: err.errors[x].message}))[0];
-
-        res.render('register',  {error});
+    } catch (error) {
+        res.render('register', {error})
         return;
     }
 })
