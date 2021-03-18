@@ -42,7 +42,7 @@ router.post('/register',isGuest, async (req, res) => {
         return;
     }
     try {
-        let user = await authService.register({username, password, email});
+            let user = await authService.register({username, password, email});
         try {
             let token = await authService.login({username, password})
             res.cookie(cookieName, token);
@@ -51,8 +51,8 @@ router.post('/register',isGuest, async (req, res) => {
             res.status(404).render('login', {error})
         } 
     } catch (error) {
-        res.status(404).render('register', {error})
-        return;
+            res.status(404).render('register', {error})
+            return;
     }
 })
 router.get('/logout', isAuthenticated, (req, res)=>{
